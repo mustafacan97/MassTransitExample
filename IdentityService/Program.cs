@@ -3,9 +3,11 @@ using IdentityService.Infrastructures;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddMediatR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services
+    .AddMediatR()
+    .AddMassTransit(builder.Configuration);
 
 var app = builder.Build();
 

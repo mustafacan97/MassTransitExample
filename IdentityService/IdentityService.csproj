@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.0.14" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.14" />
     <PackageReference Include="MediatR" Version="12.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
@@ -17,7 +19,6 @@
     <Folder Include="Abstractions\" />
     <Folder Include="Concretes\" />
     <Folder Include="Datas\" />
-    <Folder Include="Primitives\" />
   </ItemGroup>
 
 </Project>
