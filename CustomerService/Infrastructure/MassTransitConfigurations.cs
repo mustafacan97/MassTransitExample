@@ -1,9 +1,9 @@
-﻿using MassTransit;
-using IdentityService.Primitives;
+﻿using CustomerService.Consumers;
+using CustomerService.Primitives;
+using MassTransit;
 using RabbitMQ.Client;
-using MassTransit.Contracts;
 
-namespace IdentityService.Infrastructures;
+namespace CustomerService.Infrastructure;
 
 public static class MassTransitConfigurations
 {
@@ -13,6 +13,8 @@ public static class MassTransitConfigurations
         
         services.AddMassTransit(x =>
         {
+            //x.AddConsumers(typeof(Program).Assembly);
+
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host(rabbitMqSettings.Host, "/", h =>
@@ -21,11 +23,16 @@ public static class MassTransitConfigurations
                     h.Password(rabbitMqSettings.Password);
                 });
 
-                cfg.Message<CustomerCreatedIntegrationEvent>(x => x.SetEntityName(rabbitMqSettings.DefaultExchangeName));
-                cfg.Publish<CustomerCreatedIntegrationEvent>(x =>
+                cfg.ReceiveEndpoint("CustomerService.CustomerCreated", x =>
                 {
-                    x.ExchangeType = ExchangeType.Direct;
+                    x.Consumer<CustomerCreatedIntegrationEventConsumer>();
+                    x.Bind(rabbitMqSettings.DefaultExchangeName, e =>
+                    {
+                        e.ExchangeType = ExchangeType.Direct;
+                    });
                 });
+
+                cfg.ConfigureEndpoints(context);
             });
         });
 

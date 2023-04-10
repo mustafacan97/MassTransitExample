@@ -1,5 +1,5 @@
-﻿using IdentityService.Events;
-using MassTransit;
+﻿using MassTransit;
+using MassTransit.Contracts;
 
 namespace IdentityService.UseCases.Commands.Register;
 

@@ -2,10 +2,8 @@
 
 namespace MassTransit.Contracts;
 
-[ConfigureConsumeTopology(false)]
 public class CustomerCreatedIntegrationEvent
 {
-    [JsonInclude]
     public string Email { get; private set; } = string.Empty;
 
     [JsonConstructor]
